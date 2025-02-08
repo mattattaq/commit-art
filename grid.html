@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Pattern Generator</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            width: 20px;
+            height: 20px;
+            text-align: center;
+        }
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const gridContainer = document.getElementById('checkboxGrid');
+
+    // Create 7 rows
+    for (let i = 0; i < 7; i++) {
+        const row = document.createElement('tr');
+        // Create 56 checkboxes per row
+        for (let j = 0; j < 56; j++) {
+            const cell = document.createElement('td');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `cell-${i}-${j}`;
+            cell.appendChild(checkbox);
+            row.appendChild(cell);
+        }
+        gridContainer.appendChild(row);
+    }
+});
+
+function generatePattern() {
+    const pattern = [];
+    for (let i = 0; i < 7; i++) {
+        const row = [];
+        for (let j = 0; j < 56; j++) {
+            const cell = document.getElementById(`cell-${i}-${j}`);
+            row.push(cell.checked ? '*' : 'X');
+        }
+        pattern.push(row.join(' '));
+    }
+    const patternText = pattern.join('\n');
+    const blob = new Blob([patternText], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'goose_pattern.txt';
+    link.click();
+}
+
+    </script>
+</head>
+<body>
+    <h1>Git Pattern Generator</h1>
+    <form id="patternForm">
+        <table id="checkboxGrid"></table>
+        <button type="button" onclick="generatePattern()">Generate Pattern</button>
+    </form>
+    <script>
+        // JavaScript code will be inserted here
+    </script>
+</body>
+</html>
